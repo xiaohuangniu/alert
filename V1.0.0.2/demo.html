@@ -1,0 +1,179 @@
+<html class="theme-next theme-next-mist js touch cssanimations csstransitions"><head>
+    <meta charset="UTF-8">
+    <title>极资源 - 小黄牛 - 基于JQery编写的一套弹窗插件</title>
+    <!--设置页面属性-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <script type="text/javascript" src="http://www.junphp.com/public/wap/js/jquery-1.7.1.min.js"></script>
+	<!--引入插件样式-->
+    <link rel="stylesheet" type="text/css" href="public/css/jun.it.alert.css">
+    <!--demo页面样式，可删除-->
+    <style>
+        /* 公共样式 */
+        html,body{margin:0px; padding:0px; font-size:12px; font-family:'微软雅黑'}
+        ul{z-index: 999999999999;position: absolute;}
+        ul,li{margin:0px; padding:0px; list-style:none}
+        li{width: 100px; text-align: center; line-height: 30px; height: 30px;margin: 50px 20px; float: left; background: #009688; color: #fff; cursor: pointer}
+        li:hover{background: #5FB878}
+    </style>
+</head>
+<body style="height: 1000px">
+<ul>
+    <li class="demo-1">打开-遮罩层</li>
+    <li class="demo-2">关闭-遮罩层</li>
+
+    <li class="demo-3">打开 - 编辑弹窗</li>
+    <li class="demo-4">关闭 - 编辑弹窗</li>
+
+    <li class="demo-5">确认弹窗</li>
+    <li class="demo-6">警告弹窗</li>
+    <li class="demo-7">文字弹窗</li>
+
+    <li class="demo-8">打开-加载层</li>
+    <li class="demo-9">关闭-加载层</li>
+</ul>
+</body>
+ <!--各种组件-->
+<script src="public/js/jun.it.alert.js"></script>  
+<script>
+// 全局颜色配置
+$.MaskColor('cyan');
+
+// DEMO-1 打开遮罩层
+$(".demo-1").click(function(){
+  $.MaskStart('#000',0.8); // 颜色|不透明度
+});
+// DEMO-1 关闭遮罩层
+$(".demo-2").click(function(){
+  $.MaskEnd();
+});
+
+
+// DEMO-3 打开编辑弹窗
+$(".demo-3").click(function(){
+  $.mkter({
+    Id         : 'App',
+    Title      : '我是头部标题',
+    Botton     :' 我是按钮',
+    Width      : 500,
+    Top        : 200,
+    MaskColor  : '#000',
+    MaskBright : 0.7,
+    Form       : [
+        {
+            "type":"text",
+            "id":"name",
+            "title":"用户名",
+            "value":"默认值"
+        },
+        {
+            "type":"password",
+            "id":"pwd",
+            "title":"密码",
+            "value":""
+        },
+        {
+            "type":"textarea",
+            "id":"des",
+            "title":"描述",
+            "value":"默认值"
+        },
+        {
+            "type":"select",
+            "id":"name",
+            "value":"2",
+            "option":[
+                {id:"0", title:"未知"},
+                {id:"1", title:"男"},
+                {id:"2", title:"女"}
+            ]
+        },
+        {
+            "type": "more",
+            'id'  : "key",
+            'dui' : true,
+            'dui_click': 'DuiClick(ajax_more)',
+            "option":[
+                {id:"mo_title", title:"标题",value:"默认值"},
+                {id:"mo_num", title:"数量",value:""},
+            ],
+            "value":[
+                {mo_title:"测试-1",mo_num:"3"},
+                {mo_title:"测试-2",mo_num:"4"},
+                {mo_title:"测试-3",mo_num:"5"},
+            ]
+        }
+    ],
+    Click      : 'AddClick()',
+  });
+});
+// 当more类型开启时，点击打勾调用的回调方法，函数名可以自行修改，但参数的变量固定为ajax_more
+function DuiClick(ajax_more){
+  alert(ajax_more);
+}
+
+// DEMO-4 关闭编辑弹窗
+$(".demo-4").click(function(){
+  $.MaskClick('App');
+});
+
+
+
+// DEMO-5 带确认按钮弹窗
+$(".demo-5").click(function(){
+  $.confirm({
+    Id          : 'App-alert',
+    Title       : '不要反驳，请同意',
+    Content     : '妈卖批，小黄牛真是帅得一匹~~',
+    Out         : '不同意',
+    Confirm     : '同意',
+    Width       : 500,
+    OutState    : true,
+    Click_O     : 'Alert_O()',
+    Click_C     : 'Alert_C()',
+  });
+});
+function Alert_O(){alert(1);}
+function Alert_C(){alert(2);$.MaskClick('App-alert');}
+
+
+
+// DEMO-6 带头部信息的警告弹窗
+$(".demo-6").click(function(){
+  $.alert({
+    Id          : 'App-alert-2',
+    Title       : '不要反驳，请同意',
+    Content     : '妈卖批，小黄牛真是帅得一匹~~',
+    Width       : 500,
+  });
+});
+
+
+// DEMO-7 只有文字的提示弹窗
+$(".demo-7").click(function(){
+  $.warning({
+    Id          : 'App-alert-2',
+    Content     : '妈卖批，小黄牛真是帅得一匹~~',
+    Width       : 500,
+    OutTime     : 20000,
+  });
+});
+
+
+
+// DEMO-8 打开加载层
+$(".demo-8").click(function(){
+  // 演示效果，这里把自动关闭设置成了false，默认也是false
+  $.load({
+      OutState : false,
+      OutTime  : 2000,
+  });
+});
+// DEMO-9 关闭加载层
+$(".demo-9").click(function(){
+  $.loadEnd();
+});
+</script>
+</html>
